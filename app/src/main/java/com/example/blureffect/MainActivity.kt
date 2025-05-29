@@ -4,6 +4,7 @@ import android.graphics.RenderEffect
 import android.graphics.Shader
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -48,22 +49,51 @@ class MainActivity : ComponentActivity() {
                 val blurEffect = remember(blurValue) {
                         RenderEffect.createBlurEffect(blurValue, blurValue, Shader.TileMode.CLAMP).asComposeRenderEffect()
                 }
-                Scaffold(modifier =
-                    Modifier.fillMaxSize()
-                        .clickable{
-                            // Change the blur value on click
-                            // This can be adjusted to LOW, MEDIUM, or HIGH based on your needs
-                            blurValue = when{
-                                blurValue == LOW -> MEDIUM
-                                blurValue == MEDIUM -> HIGH
-                                else -> LOW
+                Scaffold(
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .clickable {
+                                // Change the blur value on click
+                                // This can be adjusted to LOW, MEDIUM, or HIGH based on your needs
+
+                                blurValue = when (blurValue) {
+                                    LOW -> {
+                                        Toast.makeText(
+                                            this,
+                                            "from LOW to MEDIUM Blur",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        MEDIUM
+                                    }
+
+                                    MEDIUM -> {
+                                        Toast.makeText(
+                                            this,
+                                            "from MEDIUM to HIGH Blur",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        HIGH
+                                    }
+
+                                    else -> {
+                                        Toast.makeText(
+                                            this,
+                                            "from HIGH to LOW Blur",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        LOW
+                                    }
+                                }
                             }
-                        }
-                        .background(color = MaterialTheme.colorScheme.primary, shape = MaterialTheme.shapes.large)
-                        // Applying the blur effect to the Scaffold
-                        .graphicsLayer {
-                        renderEffect = blurEffect
-                    },
+                            .background(
+                                color = MaterialTheme.colorScheme.primary,
+                                shape = MaterialTheme.shapes.large
+                            )
+                            // Applying the blur effect to the Scaffold
+                            .graphicsLayer {
+                                renderEffect = blurEffect
+                            },
                 ) { innerPadding ->
                     Box(
                         modifier = Modifier
@@ -86,7 +116,7 @@ class MainActivity : ComponentActivity() {
             text = "Hello $name!",
             style = MaterialTheme.typography.headlineLarge,
             color = MaterialTheme.colorScheme.background,
-            modifier = modifier.background(color = MaterialTheme.colorScheme.onBackground)
+            modifier = modifier.background(color = MaterialTheme.colorScheme.primary)
         )
     }
 
